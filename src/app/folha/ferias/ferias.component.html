@@ -1,0 +1,207 @@
+<div class="container">
+    <div class="row">
+        <div class="col s12 right-align">
+            <h2>Férias</h2>
+            <h4>Férias</h4>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <ng-adsense></ng-adsense>
+        </div>
+    </div>
+ <!--
+    <div class="row">
+        Botao do Whats App
+        <div class="col s12 right-align">
+            <a href="https://api.whatsapp.com/send?text=C%C3%A1lculo%20de%20Rescis%C3%A3o%20Trabalhista%20-%20Contador%20https%3A%2F%2Fcontador.com.br%2FRescisao"
+                id="whatsapp-share-btt" rel="nofollow" target="_blank" class="whatsapp-share-button"></a>
+            <br />
+        </div>
+    </div>
+-->
+    <form [formGroup]="myForm" class="col s12">
+        <div class="row">
+            <div class="col s12 center-align">
+                <p *ngIf="!myForm.valid || !myForm.value.aceitaTermos">
+                    O botão para Calcular esta desabilitado porque você ainda não aceitou os termos ou deve ter campo
+                    obrigatório<strong>
+                        (Salário Base, Dias de Férias, Dias de Abono e Data das Férias)</strong> sem
+                    preenchimento
+                    adequando – revise suas informações.</p>
+            </div>
+            <div class="col s12 center-align">
+                <button type="submit" class="btn waves-effect waves-light"
+                    [disabled]="submited || !myForm.valid || !myForm.value.aceitaTermos" (click)="onSubmit()">CALCULAR
+                    FÉRIAS AGORA</button>
+            </div>
+            <div class="col s12 progress" *ngIf="submited">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <p>
+                    <label>
+                        <input type="checkbox" formControlName="aceitaTermos" />
+                        <span> <strong style="color: red;"> Aceite de Termos - Você concorda em visualizar os
+                                resultados a título de DEMOSTRAÇÃO. E também esta ciente de que, para tratativas
+                                oficiais,
+                                deve
+                                procurar o sindicato/advogado no caso de empregado
+                                ou o contador de confiança no caso de empregador.</strong>
+                        </span>
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p> O salário base é o valor acertado em contrato entre o empregado e o empregador. Este pode ser fixado
+                    mensalmente, por hora ou por dia de trabalho. Aqui oferecemos cálculo de salário mensalista e
+                    horista.
+                </p>
+            </div>
+            <div class="input-field col s12">
+                <input currencyMask formControlName="salarioBase" [placeholder]="'R$ 0,00'" maxlength="14" />
+                <label class="active" style="font-weight: 900;">Salario Base (Mensal ou hor&#xE1;rio)?</label>
+                <app-error-msg [control]="myForm.get('salarioBase')" label="Salario Base"></app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <input formControlName="diasFerias" value="0" maxlength="2" />
+                <label class="active" style="font-weight: 900;" for="diasFerias">Dias de F&#xE9;rias?</label>
+                <app-error-msg [control]="myForm.get('diasFerias')" label="Dias de Férias">
+                </app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p>Abono pecuniário corresponde aos dias de férias que são vendidos para o empregador. Ou seja, o
+                    empregado vai trabalhar e receber em dobro.</p>
+            </div>
+            <div class="input-field col s12">
+                <input formControlName="diasAbono" value="0" maxlength="2" />
+                <label class="active" style="font-weight: 900;"  for="diasAbono">Dias de Abono Pecuni&#xE1;rio?</label>
+                <app-error-msg [control]="myForm.get('diasAbono')" label="Dias Abono Pecuniário">
+                </app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p>Data em que se pretende tirar férias – isso é importante para determinar quais tabelas de INSS e
+                    Imposto de Renda serão utilizadas para cálculo destes descontos. </p>
+
+            </div>
+            <div class="input-field col s12" [ngClass]="cssErrorsApply('dataFerias')">
+                <input maxlength="10" type="date" data-val="true" formControlName="dataFerias" value="" />
+                <label class="active" style="font-weight: 900;">Data das F&#xE9;rias </label>
+                <app-error-msg [control]="myForm.get('dataFerias')" label="dataFerias"></app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p>Média de salário variável corresponde a horas extras e comissões que o empregado recebeu durante o
+                    ano.</p>
+            </div>
+            <div class="input-field col s12">
+                <input currencyMask formControlName="mediaSalarioVariavel" [placeholder]="'R$ 0,00'" maxlength="14" />
+                <label class="active" for="mediaSalarioVariavel">M&#xE9;dia Anual de Sal&#xE1;rio Vari&#xE1;vel?</label>
+                <app-error-msg [control]="myForm.get('mediaSalarioVariavel')" label="mediaSalarioVariavel">
+                </app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p> A <a href="http://receita.economia.gov.br">Receita Federal</a> oferece abatimento no cálculo do
+                    imposto
+                    de renda - de acordo com o número de dependentes. Observe que o enquadramento de dependentes ao
+                    Imposto
+                    de Renda e ao Salário Família seguem regras distintas. </p>
+            </div>
+            <div class="input-field col s12">
+                <input formControlName="dependentesIR" value="0" maxlength="2" />
+                <label class="active" for="dependentesIR">Dependentes para Imposto de Renda?</label>
+                <app-error-msg [control]="myForm.get('dependentesIR')" label="Dependente Imposto de Renda">
+                </app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p>O empregado tem por opção receber metade do 13º. Salário junto com o pagamento das férias.</p>
+            </div>
+            <div class="input-field col s12">
+                <p>
+                    <label>
+                        <input type="checkbox" formControlName="ehCom13Salario" />
+                        <span>Parcela 13o. Sal&#xE1;rio?</span>
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p>O prazo para pagamento de férias é de um ano após um final do período aquisitivo. As férias são
+                    devidas em dobro quando esse prazo máximo não for respeitado.</p>
+            </div>
+            <div class="input-field col s12">
+                <p>
+                    <label>
+                        <input type="checkbox" formControlName="ehFeriasEmDobro" />
+                        <span> F&#xE9;rias em dobro?</span>
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p>Caso se tratar de cálculo de rescisão de horista - indique isso aqui. E também informe o total de
+                    horas
+                    efetivamente trabalhadas no mês. Se houver Faltas/Atrasos, isso deve ser abatido do total de horas
+                    ou
+                    informado no campo de mesmo nome- <strong>um ou outro</strong>. Se fizer as duas coisas
+                    Faltas/Atrasos
+                    ficarão em dobro. </p>
+            </div>
+            <div class="input-field col s12">
+                <p>
+                    <label>
+                        <input type="checkbox" formControlName="ehSalarioPorHora" />
+                        <span>O Sal&#xE1;rio &#xE9; Horista?</span>
+                    </label>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col s12">
+                <p> A Jornada semanal de trabalho influencia o salário base horário. E esse valor é base para cálculo de
+                    faltas, atrasos e horas extras. </p>
+            </div>
+            <div class="input-field col s12" [ngClass]="cssErrorsApply('jornada')">
+                <select class="browser-default" formControlName="jornada">
+                    <option value="" disabled selected>Escolha uma opção</option>
+                    <option value="44" selected>44</option>
+                    <option value="36">36</option>
+                    <option value="30">30</option>
+                </select>
+                <label class="active" for="jornada">Jornada semanal? Ex. 44 (horas)</label>
+                <app-error-msg [control]="myForm.get('jornada')" label="Jornada semanal"></app-error-msg>
+            </div>
+        </div>
+    </form>
+</div>

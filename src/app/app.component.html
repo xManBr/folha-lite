@@ -1,0 +1,36 @@
+<nav>
+  <div class="nav-wrapper">
+    <a routerLink="/receita-federal" class="brand-logo">Contador</a>
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li routerLinkActive="active"><a routerLink="/rescisao">Rescisão</a></li>
+      <li><a routerLink="/salario-liquido">Salário Líquido</a></li>
+      <li><a routerLink="/ferias">Férias</a></li>
+      <li><a routerLink="/decimo-terceiro">13° Salário</a></li>
+      <li><a routerLink="/suport">Suporte</a></li>
+      <li><a routerLink="/contact">Contato</a></li>
+      <li><a routerLink="/privacy">Privacidade</a></li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="sidenav" id="mobile-demo">
+  <li><a class="sidenav-close"  routerLink="/receita-federal">Destaque</a></li>
+  <li class="sidenav-close" routerLinkActive="active"><a routerLink="/rescisao">Rescisão</a></li>
+  <li><a class="sidenav-close" routerLink="/salario-liquido">Salário Líquido</a></li>
+  <li><a class="sidenav-close" routerLink="/ferias">Férias</a></li>
+  <li><a class="sidenav-close" routerLink="/decimo-terceiro">13° Salário</a></li>
+  <li><a class="sidenav-close" routerLink="/suport">Suporte</a></li>
+  <li><a class="sidenav-close" routerLink="/contact">Contato</a></li>
+  <li><a class="sidenav-close" routerLink="/privacy">Privacidade</a></li>
+</ul>
+
+<div class="container">
+  <router-outlet></router-outlet>
+  <br />
+  <hr />
+  <footer>
+    <p>&copy; 2021 - Contador.com.br</p>
+  </footer>
+
+</div>

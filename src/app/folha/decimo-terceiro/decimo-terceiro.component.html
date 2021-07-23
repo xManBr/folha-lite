@@ -1,0 +1,191 @@
+<div class="container">
+    <div class="row">
+        <div class="col s12 right-align">
+            <h2>13° Salário</h2>
+            <h4>13° Salário</h4>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <ng-adsense></ng-adsense>
+        </div>
+    </div>
+<!--
+    <div class="row">
+         Botao do Whats App
+        <div class="col s12 right-align">
+            <a href="https://api.whatsapp.com/send?text=C%C3%A1lculo%20de%20Rescis%C3%A3o%20Trabalhista%20-%20Contador%20https%3A%2F%2Fcontador.com.br%2FRescisao"
+                id="whatsapp-share-btt" rel="nofollow" target="_blank" class="whatsapp-share-button"></a>
+            <br />
+        </div>
+    </div>
+-->
+    <form [formGroup]="myForm" class="col s12">
+        <div class="row">
+            <div class="col s12 center-align">
+                <p *ngIf="!myForm.valid || !myForm.value.aceitaTermos">
+                    O botão para Calcular esta desabilitado porque você ainda não aceitou os termos ou deve ter campo
+                    obrigatório<strong>
+                        (Parcela, Salário Base, Datas de Admissão, Ano de Pagamento)</strong> sem
+                    preenchimento
+                    adequando – revise suas informações.</p>
+            </div>
+            <div class="col s12 center-align">
+                <button type="submit" class="btn waves-effect waves-light"
+                    [disabled]="submited || !myForm.valid || !myForm.value.aceitaTermos" (click)="onSubmit()">CALCULAR
+                    DECIMO-TERCEIRO AGORA</button>
+            </div>
+            <div class="col s12 progress" *ngIf="submited">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12">
+                <p>
+                    <label>
+                        <input type="checkbox" formControlName="aceitaTermos" />
+                        <span> <strong style="color: red;"> Aceite de Termos - Você concorda em visualizar os
+                                resultados a título de DEMOSTRAÇÃO. E também esta ciente de que, para tratativas
+                                oficiais,
+                                deve
+                                procurar o sindicato/advogado no caso de empregado
+                                ou o contador de confiança no caso de empregador.</strong>
+                        </span>
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col s12">
+                <p>Parcela do 13° salário – a primeira parcela deve ser paga até o dia 30 de novembro e a segunda
+                    parcela até o dia 20 de dezembro. Nesta última parcela serão descontados o INSS e o imposto de renda
+                    – portando tende a ter valor menor que a primeira.</p>
+            </div>
+            <div class="input-field col s12" [ngClass]="cssErrorsApply('parcela')">
+                <select class="browser-default" formControlName="parcela">
+                    <option value="" disabled selected>Escolha uma opção</option>
+                    <option value="1" selected>Primeira</option>
+                    <option value="2">Segunda</option>
+                </select>
+                <label class="active" style="font-weight: 900;" for="parcela">Parcela do 13° Salário?</label>
+                <app-error-msg [control]="myForm.get('parcela')" label="Parcela do 13° Salário"></app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p> O salário base é o valor acertado em contrato entre o empregado e o empregador. Este pode ser fixado
+                    mensalmente, por hora ou por dia de trabalho. Aqui oferecemos cálculo de salário mensalista e
+                    horista.
+                </p>
+            </div>
+            <div class="input-field col s12">
+                <input currencyMask formControlName="salarioBase" [placeholder]="'R$ 0,00'" maxlength="14" />
+                <label class="active" style="font-weight: 900;">Salario Base (Mensal ou hor&#xE1;rio)?</label>
+                <app-error-msg [control]="myForm.get('salarioBase')" label="Salario Base"></app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p>Data de Admissão é o início do contrato de trabalho. Isso vai ser determinante para os cálculos de
+                    férias, férias proporcionais e 13º. Salário. </p>
+            </div>
+            <div class="input-field col s12" [ngClass]="cssErrorsApply('dataAdmissao')">
+                <input maxlength="10" type="date" data-val="true" formControlName="dataAdmissao" value="" />
+                <label class="active" style="font-weight: 900;">Data de Admiss&#xE3;o?</label>
+                <app-error-msg [control]="myForm.get('dataAdmissao')" label="dataAdmissao"></app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p> Ano de Pagamento do 13° Salário. </p>
+            </div>
+            <div class="input-field col s12" [ngClass]="cssErrorsApply('ano')">
+                <select class="browser-default" formControlName="ano">
+                    <option value="" disabled selected>Escolha uma opção</option>
+                    <option value="2019">2019</option>
+                    <option value="2020" selected>2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                </select>
+                <label class="active" style="font-weight: 900;" for="ano">Ano de Pagamento?</label>
+                <app-error-msg [control]="myForm.get('ano')" label="Ano de Pagamento"></app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p>Média de salário variável corresponde a horas extras e comissões que o empregado recebeu durante o
+                    ano.</p>
+            </div>
+            <div class="input-field col s12">
+                <input currencyMask formControlName="mediaSalarioVariavel" [placeholder]="'R$ 0,00'" maxlength="14" />
+                <label class="active" for="mediaSalarioVariavel">M&#xE9;dia Anual de
+                    Sal&#xE1;rio Vari&#xE1;vel?</label>
+                <app-error-msg [control]="myForm.get('mediaSalarioVariavel')" label="Salário Vaivável">
+                </app-error-msg>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p> A <a href="http://receita.economia.gov.br">Receita Federal</a> oferece abatimento no cálculo do
+                    imposto
+                    de renda - de acordo com o número de dependentes. Observe que o enquadramento de dependentes ao
+                    Imposto
+                    de Renda e ao Salário Família seguem regras distintas. </p>
+            </div>
+            <div class="input-field col s12">
+                <input formControlName="dependentesIR" value="0" maxlength="2" />
+                <label class="active" for="dependentesIR">Dependentes para Imposto de Renda?</label>
+                <app-error-msg [control]="myForm.get('dependentesIR')" label="Dependente Imposto de Renda">
+                </app-error-msg>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col s12">
+                <p>Caso se tratar de cálculo de rescisão de horista - indique isso aqui. E também informe o total de
+                    horas
+                    efetivamente trabalhadas no mês. Se houver Faltas/Atrasos, isso deve ser abatido do total de horas
+                    ou
+                    informado no campo de mesmo nome- <strong>um ou outro</strong>. Se fizer as duas coisas
+                    Faltas/Atrasos
+                    ficarão em dobro. </p>
+            </div>
+            <div class="input-field col s12">
+                <p>
+                    <label>
+                        <input type="checkbox" formControlName="ehSalarioPorHora" />
+                        <span>O Sal&#xE1;rio &#xE9; Horista?</span>
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <p> A Jornada semanal de trabalho influencia o salário base horário. E esse valor é base para cálculo de
+                    faltas, atrasos e horas extras. </p>
+            </div>
+            <div class="input-field col s12" [ngClass]="cssErrorsApply('jornada')">
+                <select class="browser-default" formControlName="jornada">
+                    <option value="" disabled selected>Escolha uma opção</option>
+                    <option value="44" selected>44</option>
+                    <option value="36">36</option>
+                    <option value="30">30</option>
+                </select>
+                <label class="active" for="jornada">Jornada semanal? Ex. 44 (horas)</label>
+                <app-error-msg [control]="myForm.get('jornada')" label="Jornada semanal"></app-error-msg>
+            </div>
+        </div>
+    </form>
+</div>

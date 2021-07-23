@@ -1,0 +1,225 @@
+<div class="container" *ngIf="this.recibo">
+
+    <h2> {{ subtitulo }} </h2>
+    <div class="row">
+        <div class="col s12">
+            <hr />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <ng-adsense></ng-adsense>
+        </div>
+    </div>
+
+    <!-- Pesquisa-->
+    <div class="row">
+        <div class="col s12 center-align">
+            <strong>
+                <p>O que achou desse serviço? Era o que você estava procurando?
+                    <br />
+                    Compartilhe sua experiência conosco e ajude-nos a ajudar você!
+                    <br />
+                    Responda a uma breve pesquisa para continuarmos aprimorando este site.
+            </strong>
+            <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSetm798fzDXUhTC0aSY7Jqhlj0ptOLCIIUUfFpFxUgc-zXnWw/viewform?usp=sf_link">Quero
+                Compartilhar</a>
+        </div>
+
+        <div class="col s12">
+            <hr />
+        </div>
+    </div>
+
+    <!-- Mensagens ao usuário-->
+    <div class="row" *ngIf="false">
+        <div class="col s1">
+        </div>
+        <div class="col s10 center-align">
+            <strong>Você está visualizando esses
+                resultados, porque concordou com os termos de DEMOSTRAÇÃO.
+                E também esta ciente de que, para tratativas oficiais, deve procurar o sindicato/advogado no
+                caso de
+                empregado
+                ou o contador de confiança no caso de empregador.</strong>
+        </div>
+        <div class="col s1">
+        </div>
+        <div class="col s12">
+            <hr />
+        </div>
+    </div>
+
+    <div class="row odd ">
+        <div class="col s12 m6 l6 ">
+            <strong>VERBA</strong>
+        </div>
+        <div class="col s4 m6 l2 ">
+            <strong>REF</strong>
+        </div>
+        <div class="col s8 m6 l4 right-align" style="color: blue; font-weight: 900;">
+            RENDIMENTOS/DESCONTOS
+        </div>
+    </div>
+
+    <div *ngFor="let item of recibo.reciboItemTOs; odd as isOdd; even as isEven" [class.odd]="isOdd"
+        [class.even]="isEven">
+        <div class="row ">
+            <div class="col s12 m6 l6 truncate ">
+                <strong>{{ item.verbaNome}}</strong>
+            </div>
+            <div class="col s4 m6 l2">
+                <strong>[ {{ item.qtdVer}} ]</strong>
+            </div>
+            <div class="col s8 m6 l4 right-align" *ngIf="item.renDes=='A-Rend'" style="color: blue; font-weight: 900;">
+                {{ item.valVer | currency : 'BRL'}}
+            </div>
+
+            <div class="col s8 m6 l4 right-align" *ngIf="item.renDes=='B-Desc'" style="color: red; font-weight: 900;">
+                -{{ item.valVer | currency : 'BRL'}}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row  liquido-value">
+            <div class="col s6 m6 l6">
+                <strong>LÍQUIDO</strong>
+            </div>
+            <div class="col s6 m6 l6 right-align" *ngIf="(liquido >= 0)" style="color: blue; font-weight: 900;">
+                {{ liquido | currency : 'BRL' }}
+            </div>
+            <div class="col s6 m6 l6 right-align  " *ngIf="!(liquido >= 0)" style="color: red; font-weight: 900;">
+                -{{ liquido | currency }}
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row" *ngIf="ehSalarioLiquido">
+            <div class="col s6 m6 l6">
+                <strong>FGTS</strong>
+            </div>
+            <div class="col s6 m6 l6 right-align" *ngIf="(fgts >= 0)" style="color: blue; font-weight: 900;">
+                {{ fgts | currency : 'BRL' }}
+            </div>
+            <div class="col s6 m6 l6 right-align  " *ngIf="!(fgts >= 0)" style="color: red; font-weight: 900;">
+                -{{ fgts | currency }}
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="row" *ngIf="!ehRescisao">
+            <div class="col s6 m6 l6">
+                <strong>BASE INSS</strong>
+            </div>
+            <div class="col s6 m6 l6 right-align" *ngIf="(baseInss >= 0)" style="color: blue; font-weight: 900;">
+                {{ baseInss | currency : 'BRL' }}
+            </div>
+            <div class="col s6 m6 l6 right-align  " *ngIf="!(baseInss >= 0)" style="color: red; font-weight: 900;">
+                -{{ baseInss | currency }}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row" *ngIf="!ehRescisao">
+            <div class="col s6 m6 l6">
+                <strong>BASE IRRF</strong>
+            </div>
+            <div class="col s6 m6 l6 right-align" *ngIf="(baseIrrf >= 0)" style="color: blue; font-weight: 900;">
+                {{ baseIrrf | currency : 'BRL' }}
+            </div>
+            <div class="col s6 m6 l6 right-align  " *ngIf="!(baseIrrf >= 0)" style="color: red; font-weight: 900;">
+                -{{ baseIrrf | currency }}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row" *ngIf="ehRescisao">
+            <div class="col s6 m6 l6">
+                <strong>FGTS Rescisao</strong>
+            </div>
+            <div class="col s6 m6 l6 right-align" *ngIf="(fgtsRescisao >= 0)" style="color: blue; font-weight: 900;">
+                {{ fgtsRescisao | currency : 'BRL' }}
+            </div>
+            <div class="col s6 m6 l6 right-align  " *ngIf="!(fgtsRescisao >= 0)" style="color: red; font-weight: 900;">
+                -{{ fgtsRescisao | currency }}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row" *ngIf="ehRescisao">
+            <div class="col s6 m6 l6">
+                <strong>FGTS Multa 40% S/ Rescisao</strong>
+            </div>
+            <div class="col s6 m6 l6 right-align" *ngIf="(fgts40Rescisao >= 0)" style="color: blue; font-weight: 900;">
+                {{ fgts40Rescisao | currency : 'BRL' }}
+            </div>
+            <div class="col s6 m6 l6 right-align  " *ngIf="!(fgts40Rescisao >= 0)"
+                style="color: red; font-weight: 900;">
+                -{{ fgts40Rescisao | currency }}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row" *ngIf="ehRescisao">
+            <div class="col s6 m6 l6">
+                <strong>FGTS Multa 40% S/ Depósito</strong>
+            </div>
+            <div class="col s6 m6 l6 right-align" *ngIf="(fgts40Deposito >= 0)" style="color: blue; font-weight: 900;">
+                {{ fgts40Deposito | currency : 'BRL' }}
+            </div>
+            <div class="col s6 m6 l6 right-align  " *ngIf="!(fgts40Deposito >= 0)"
+                style="color: red; font-weight: 900;">
+                -{{ fgts40Deposito | currency }}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row  liquido-value" *ngIf="ehRescisao">
+            <div class="col s6 m6 l6">
+                <strong>Líquido + FGTS</strong>
+            </div>
+            <div class="col s6 m6 l6 right-align" *ngIf="(fgts40Deposito >= 0)" style="color: blue; font-weight: 900;">
+                {{ liquidoComFGTS | currency : 'BRL' }}
+            </div>
+            <div class="col s6 m6 l6 right-align  " *ngIf="!(fgts40Deposito >= 0)"
+                style="color: red; font-weight: 900;">
+                -{{ liquidoComFGTS | currency }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <hr />
+        </div>
+    </div>
+
+    <!-- Pesquisa-->
+    <div class="row">
+        <div class="col s12 center-align">
+            <strong>
+                <p>O que achou desse serviço? Era o que você estava procurando?
+                    <br />
+                    Compartilhe sua experiência conosco e ajude-nos a ajudar você!
+                    <br />
+                    Responda a uma breve pesquisa para continuarmos aprimorando este site.
+            </strong>
+            <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSetm798fzDXUhTC0aSY7Jqhlj0ptOLCIIUUfFpFxUgc-zXnWw/viewform?usp=sf_link">Quero
+                Compartilhar</a>
+        </div>
+
+        <div class="col s12">
+            <hr />
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,11 @@
+{
+    "cookie": {
+        "header": "Cookies são usado neste site!",
+        "message": "Esse site ite usa cookies para garantir que você obtenha a melhor experiência.",
+        "dismiss": "Entendeu!",
+        "allow": "Aceita cookies",
+        "deny": "Rejeta",
+        "link": "Saiba Mais",
+        "policy": "Política de Cookie"
+    }
+}
