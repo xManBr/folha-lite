@@ -4,7 +4,7 @@ import { FormArray, FormGroup } from '@angular/forms';
 @Directive({
   selector: '[appBaseForm]'
 })
-export abstract class BaseFormComponent implements OnInit {
+export abstract class BaseFormDirective implements OnInit {
 
   myForm: FormGroup;
 
@@ -13,18 +13,18 @@ export abstract class BaseFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  abstract submit();
+  abstract submit(): void;
 
   onSubmit(): void {
     if (this.myForm.valid) {
-      this.myForm.get('')
+      this.myForm.get('');
       this.submit();
     } else {
       this.VerifyFormValidate(this.myForm);
     }
   }
 
-  resetForm() {
+  resetForm(): void {
     this.myForm.reset();
   }
 
@@ -43,26 +43,26 @@ export abstract class BaseFormComponent implements OnInit {
     return (
       !this.myForm.get(control).valid &&
       (this.myForm.get(control).touched || this.myForm.get(control).dirty)
-    )
+    );
   }
   VerifyRequired(control: string): boolean {
     return (
       this.myForm.get(control).hasError('required') &&
       (this.myForm.get(control).touched || this.myForm.get(control).dirty)
-    )
+    );
   }
   VerifyEmailValid(control: string): boolean {
     const emailField = this.myForm.get('email');
     if (emailField.errors) {
-      return emailField.errors['email'] && emailField.touched;
+      const errorLabel = 'email';
+      return emailField.errors[errorLabel] && emailField.touched;
     }
   }
 
-  cssErrorsApply(control: string) {
+  cssErrorsApply(control: string): any {
     return {
       'has-error': this.VerifyRequiredTouched(control),
       'has-feedback': this.VerifyRequiredTouched(control)
     };
   }
 }
-

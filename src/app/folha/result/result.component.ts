@@ -18,7 +18,7 @@ export class ResultComponent implements OnInit {
   baseInss: number;
   baseIrrf: number;
   recibo: ReciboInterface;
-  subtitulo: string = 'Resultado';
+  subtitulo = 'Resultado';
   tipoDeCalculo: string;
   ehRescisao: boolean;
   ehDecimoTerceiro: boolean;
@@ -28,7 +28,6 @@ export class ResultComponent implements OnInit {
   fgts40Rescisao: number;
   fgts40Deposito: number;
   liquidoComFGTS: number;
-
 
   public reciboItemTOs: ReciboItemInterface[];
 
@@ -53,44 +52,43 @@ export class ResultComponent implements OnInit {
       this.fgts = +this.recibo.fgts;
       this.baseInss = +this.recibo.baseInss;
       this.baseIrrf = +this.recibo.baseIrrf;
-      this.fgtsRescisao= +this.recibo.fgtsRescisao;
-      this.fgts40Rescisao= +this.recibo.fgts40Rescisao;
-      this.fgts40Deposito= +this.recibo.fgts40Deposito;
+      this.fgtsRescisao = +this.recibo.fgtsRescisao;
+      this.fgts40Rescisao = +this.recibo.fgts40Rescisao;
+      this.fgts40Deposito = +this.recibo.fgts40Deposito;
       this.liquidoComFGTS =  this.liquido + this.fgtsRescisao + this.fgts40Rescisao + this.fgts40Deposito;
 
-      this.ehRescisao = +this.recibo.tipoDeCalculo == ConfigApp.TIPO_DE_CALCULO_RESCISAO;
-      this.ehDecimoTerceiro = +this.recibo.tipoDeCalculo == ConfigApp.TIPO_DE_CALCULO_DECIMO_TERCEIRO;
-      this.ehSalarioLiquido = +this.recibo.tipoDeCalculo == ConfigApp.TIPO_DE_CALCULO_FOLHA;
+      this.ehRescisao = +this.recibo.tipoDeCalculo === ConfigApp.TIPO_DE_CALCULO_RESCISAO;
+      this.ehDecimoTerceiro = +this.recibo.tipoDeCalculo === ConfigApp.TIPO_DE_CALCULO_DECIMO_TERCEIRO;
+      this.ehSalarioLiquido = +this.recibo.tipoDeCalculo === ConfigApp.TIPO_DE_CALCULO_FOLHA;
       switch (this.recibo.tipoDeCalculo) {
         case ConfigApp.TIPO_DE_CALCULO_RESCISAO: {
-          this.subtitulo = "Rescisão";
+          this.subtitulo = 'Rescisão';
           break;
         }
         case ConfigApp.TIPO_DE_CALCULO_FOLHA: {
-          this.subtitulo = "Salário Líquido";
+          this.subtitulo = 'Salário Líquido';
           break;
         }
         case ConfigApp.TIPO_DE_CALCULO_FERIAS: {
-          this.subtitulo = "FÉRIAS";
+          this.subtitulo = 'FÉRIAS';
           break;
         }
         case ConfigApp.TIPO_DE_CALCULO_DECIMO_TERCEIRO: {
-          this.subtitulo = "13° Salário";
+          this.subtitulo = '13° Salário';
           break;
         }
         default: {
           break;
         }
       }
-      this.subtitulo = this.subtitulo + ": " + this.competencia;
+      this.subtitulo = this.subtitulo + ': ' + this.competencia;
     }
   }
 
   ngOnInit(): void {
   }
 
-  moeda(valor: number) {
-    return formatCurrency(valor, environment.API, "R$", null, ',');
+  moeda(valor: number): string {
+    return formatCurrency(valor, environment.API, 'R$', null, ',');
   }
-
 }

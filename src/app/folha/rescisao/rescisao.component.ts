@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RescisaoService } from '../rescisao.service';
-import { Location } from '@angular/common';
 import { AlertModalService } from 'src/app/shared/alert-modal.service';
 import { FormValidations } from 'src/app/shared/formvalidations';
 import { Router } from '@angular/router';
-import { BaseFormComponent } from 'src/app/shared/base-form/base-form.directive';
-import { RescisaoInterface } from "src/app/interface/rescisao.interface";
+import { BaseFormDirective } from 'src/app/shared/base-form/base-form.directive';
+import { RescisaoInterface } from 'src/app/interface/rescisao.interface';
 
 @Component({
   selector: 'app-rescisao',
@@ -14,46 +13,46 @@ import { RescisaoInterface } from "src/app/interface/rescisao.interface";
   styleUrls: ['./rescisao.component.css']
 })
 
-export class RescisaoComponent extends BaseFormComponent implements OnInit {
+export class RescisaoComponent extends BaseFormDirective implements OnInit {
 
   myForm: FormGroup;
-  submited: boolean = false;
+  submited = false;
 
   constructor(private modal: AlertModalService, private formBuild: FormBuilder,
-    private service: RescisaoService, private location: Location, private router: Router) {
+              private service: RescisaoService, private router: Router) {
     super();
   }
 
   ngOnInit(): void {
     this.myForm = this.formBuild.group({
-      //Data
+      // Data
       dataAdmissao: [null, [Validators.required, Validators.maxLength(10)]],
       dataDemissao: [null, [Validators.required, Validators.maxLength(10), FormValidations.demissaoMenorQueAdmissao('dataAdmissao')]],
 
-      //Indicador
+      // Indicador
       motivo: [null, [Validators.required, Validators.maxLength(2)]],
       tipoAviso: [null, [Validators.required, Validators.maxLength(2)]],
 
-      //numero   
+      // numero
       dependentesIR: [null, [Validators.maxLength(2), Validators.min(0), Validators.max(99)]],
       dependentesFamilia: [null, [Validators.maxLength(2), Validators.min(0), Validators.max(99)]],
 
-      //Horas ou Dias
+      // Horas ou Dias
       jornada: [44, [Validators.required, Validators.maxLength(2)]],
       horasOuDias: [null, [Validators.maxLength(3), Validators.min(0), Validators.max(220)]],
       faltasAtrasos: [null, [Validators.maxLength(3), Validators.min(0), Validators.max(220)]],
       horasExtrasQtde: [null, [Validators.maxLength(3), Validators.min(0), Validators.max(220)]],
 
-      //Percentual
+      // Percentual
       percenPensao: [null, [Validators.maxLength(2), Validators.min(0), Validators.max(99)]],
       horasExtrasPerc: [null, [Validators.maxLength(3), Validators.min(0)]],
 
-      //Moeda 
+      // Moeda
       salarioBase: [null, [Validators.required, Validators.maxLength(14)]],
       saldoDepFGTS: [null, [Validators.maxLength(14)]],
       comissao: [null, [Validators.maxLength(14)]],
 
-      //boolean
+      // boolean
       rescisaoAntecipada: [false],
       ehSalarioPorHora: [false],
       feriasJaRecebidas: [false],
@@ -62,17 +61,17 @@ export class RescisaoComponent extends BaseFormComponent implements OnInit {
     );
   }
 
-  submit() {
+  submit(): void {
     this.submited = true;
-    let rescisaoType: RescisaoInterface = this.myForm.value;
+    const rescisaoType: RescisaoInterface = this.myForm.value;
     this.service.rescisaoAjuste(rescisaoType);
-    let errorMgs = this.service.rescisaoBLLValidator(rescisaoType);
-    if (errorMgs.length == 0) {
-      let msgError = 'Erro ao calcular, modifique as informações e tente novamente!';
+    const errorMgs = this.service.rescisaoBLLValidator(rescisaoType);
+    if (errorMgs.length === 0) {
+      const msgError = 'Erro ao calcular, modifique as informações e tente novamente!';
       this.service.calcularRescisao(rescisaoType).subscribe(
         recibo => {
-          this.router.navigateByUrl("/result", {
-            state: { recibo: recibo }
+          this.router.navigateByUrl('/result', {
+            state: { recibo }
           });
         }
         , error => {
@@ -82,9 +81,9 @@ export class RescisaoComponent extends BaseFormComponent implements OnInit {
       );
     }
     else {
-      var myMsg: string = '';
-      errorMgs.forEach(errorMgs => {
-        myMsg = myMsg != '' ? myMsg + ' ' + errorMgs.message : errorMgs.message;
+      let myMsg = '';
+      errorMgs.forEach(errorMg => {
+        myMsg = myMsg !== '' ? myMsg + ' ' + errorMg.message : errorMg.message;
       });
       this.submited = false;
       this.modal.showAlertDanger(myMsg);
@@ -92,10 +91,7 @@ export class RescisaoComponent extends BaseFormComponent implements OnInit {
   }
 
   resertForm(): void {
-
     this.submited = false;
     this.myForm.reset();
   }
-
 }
-

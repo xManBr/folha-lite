@@ -1,4 +1,4 @@
-# FolhaLite
+# FolhaLite - Versão SSR
 --> ** VEJA ESTE PROJETO RODANDO EM https://contador.com.br **
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.6.
